@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Output - MemeSphere</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('../static/images/meme_background.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            color: white;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            display: inline;
+            margin: 0 24px;
+        }
+
+        .nav-links a {
+            color: #FFD700;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px black;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        .content h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .content form {
+            margin-bottom: 50px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-size: 18px;
+        }
+
+        .form-group select {
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .form-group button {
+            padding: 10px;
+            background-color: #FFD700;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            color: black;
+        }
+
+        .images-container img {
+            width: 200px;
+            margin: 10px;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="title">MemeSphere</div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Meme Output</h1>
+        <form method="POST" action="{{ url_for('search_meme') }}">
+            <div class="form-group">
+                <label for="emotion">Choose your emotion:</label>
+                <select id="emotion" name="emotion">
+                    <option value="anger">Anger</option>
+                    <option value="fear">Fear</option>
+                    <option value="surprise">Surprise</option>
+                    <option value="happiness">Happiness</option>
+                    <option value="sadness">Sadness</option>
+                    <option value="cry">Cry</option>
+                    <option value="funny">Funny</option>
+                    <option value="sarcasm">Sarcasm</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Get Memes</button>
+            </div>
+        </form>
+
+        {% if meme_images %}
+            <h2>Memes for {{ emotion.capitalize() }}</h2>
+            <div class="images-container">
+                {% for meme in meme_images %}
+                    <img src="{{ meme }}" alt="Meme Image">
+                {% endfor %}
+            </div>
+        {% else %}
+            <h3>No memes found for this emotion.</h3>
+        {% endif %}
+    </div>
+</body>
+</html>
+
